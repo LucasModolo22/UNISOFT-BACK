@@ -12,6 +12,15 @@ export class UserEntity {
   @Column()
   pwd: string;
 
+  @Column()
+  name: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  surname: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.pwd = await bcrypt.hash(this.pwd, 12);
