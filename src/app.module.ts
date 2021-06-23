@@ -7,6 +7,10 @@ import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { UserEntity } from './user/user.entity';
+import { ReceivementModule } from './receivement/receivement.module';
+import { SaleModule } from './sale/sale.module';
+import { ReceivementEntity } from './receivement/receivement.entity';
+import { SaleEntity } from './sale/sale.entity';
 
 @Module({
   imports: [
@@ -24,7 +28,9 @@ import { UserEntity } from './user/user.entity';
       },
       entities: [
         ProductEntity,
-        UserEntity
+        UserEntity,
+        ReceivementEntity,
+        SaleEntity
       ],
       migrations: [
         'src/migration/**/*.ts',
@@ -41,6 +47,8 @@ import { UserEntity } from './user/user.entity';
     ProductModule,
     AuthModule,
     UserModule,
+    ReceivementModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

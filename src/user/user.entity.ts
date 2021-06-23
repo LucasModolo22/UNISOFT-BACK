@@ -12,9 +12,6 @@ export class UserEntity {
   @Column()
   pwd: string;
 
-  @Column('text', { nullable: true })
-  pushkey: string;
-
   @BeforeInsert()
   async hashPassword() {
     this.pwd = await bcrypt.hash(this.pwd, 12);

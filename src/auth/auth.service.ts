@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { JwtService } from './jwt/jwt.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 
 
@@ -19,12 +19,11 @@ export class AuthService {
 
     async login(data: any) {
         const username = data.username;
-        const user = await this.usersRepository.findOne({ where: { username }, select: ['username', 'id', 'pushkey',  'pwd'] });
+        const user = await this.usersRepository.findOne({ where: { username }, select: ['username', 'id', 'pwd'] });
 
         if (user && await this.comparePassword(data.pwd, user.pwd)) {
             const payload = {
                 "id": user.id,
-                "pushkey": user.pushkey
             };
             const token = this.jwtService.sign(payload);
             const { pwd, ...result } = user;
