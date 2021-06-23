@@ -19,7 +19,7 @@ import { SaleEntity } from './sale/sale.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: 'lucas221001',
       database: 'unisoft',
       synchronize: true,
       logging: false,

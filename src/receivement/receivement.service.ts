@@ -25,9 +25,8 @@ export class ReceivementService {
 
     async create(data: any) {
         let receivement: any = await this.receivementRepository.create(data);
-        console.log(receivement)
-        await this.receivementRepository.save(receivement);
         let product = await this.productRepository.findOne(receivement.product);
+        await this.receivementRepository.save(receivement);
         await this.productRepository.update(product.id, {quantity : product.quantity + parseInt(receivement.quantity)});
         return await this.receivementRepository.findOne(receivement.id, {relations: ['product']})
     }
@@ -47,7 +46,10 @@ export class ReceivementService {
     }
 
     async delete(id : number) {
+        let receivement: any = await this.findOne(id)
+        let product = await this.productRepository.findOne(receivement.product);
         await this.receivementRepository.delete(id);
+        await this.productRepository.update(product.id, {quantity : product.quantity - parseInt(receivement.quantity)});
         return { success : true}
     }
 

@@ -31,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     async refreshUserData(userId: number, user: any) {
         const dbUser = await this.usersRepository.findOne(userId)
         if (!dbUser) {
-            throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+            throw new HttpException({msg: 'Usuário não encontrado'}, HttpStatus.NOT_FOUND);
         }
 
         return dbUser;

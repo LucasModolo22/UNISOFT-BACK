@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from 'src/product/product.entity';
 import { Repository } from 'typeorm';
@@ -25,11 +25,15 @@ export class SaleService {
     }
 
     async create(data: any) {
-        let receivement: any = await this.saleRepository.create(data);
-        await this.saleRepository.save(receivement);
-        let product = await this.productRepository.findOne(receivement.product);
-        await this.productRepository.update(product.id, {quantity : product.quantity - parseInt(receivement.quantity)});
-        return await this.saleRepository.findOne(receivement.id, {relations: ['product']})
+        let sale: any = await this.saleRepository.create(data);
+        let product = await this.productRepository.findOne(sale.product);
+        let transacao = product.quantity - parseInt(sale.quantity)
+        if(transacao < 0){
+            throw new HttpException({msg: `O estoque não pode ficar abaixo de 0. O estoque atual é ${product.quantity} e você está tentando retirar ${sale.quantity}`}, HttpStatus.BAD_REQUEST)
+        }
+        await this.saleRepository.save(sale);
+        await this.productRepository.update(product.id, {quantity: transacao});
+        return await this.saleRepository.findOne(sale.id, {relations: ['product']})
     }
 
     async findByProduct(id: number) {
@@ -47,7 +51,10 @@ export class SaleService {
     }
 
     async delete(id : number) {
+        let sale: any = await this.findOne(id)
+        let product = await this.productRepository.findOne(sale.product);
         await this.saleRepository.delete(id);
+        await this.productRepository.update(product.id, {quantity : product.quantity + parseInt(sale.quantity)});
         return { success : true}
     }
 

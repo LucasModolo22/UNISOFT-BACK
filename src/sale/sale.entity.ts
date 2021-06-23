@@ -1,5 +1,5 @@
 import { ProductEntity } from 'src/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 
 @Entity()
 export class SaleEntity {
@@ -16,8 +16,7 @@ export class SaleEntity {
     @Column()
     price: number;
 
-    @OneToMany(type => ProductEntity, product => product.id)
-    @JoinColumn()
+    @ManyToOne(type => ProductEntity, product => product.sale, {cascade: ["insert", "update"]})
     product: ProductEntity;
 
     @Column()

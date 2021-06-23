@@ -31,7 +31,7 @@ export class AuthService {
             return { result, token };
         }
 
-        throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        throw new HttpException({msg: "Usuário não encontrado"}, HttpStatus.NOT_FOUND);
     }
 
     async comparePassword(attempt: string, pwd: string) {
