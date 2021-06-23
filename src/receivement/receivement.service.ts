@@ -16,7 +16,7 @@ export class ReceivementService {
     ) { }
 
     async find() {
-        return await this.receivementRepository.find();
+        return await this.receivementRepository.find({relations: ['product']});
     }
 
     async findOne(id: number) {
@@ -25,9 +25,10 @@ export class ReceivementService {
 
     async create(data: any) {
         let receivement: any = await this.receivementRepository.create(data);
+        console.log(receivement)
         await this.receivementRepository.save(receivement);
         let product = await this.productRepository.findOne(receivement.product);
-        await this.productRepository.update(product.id, {quantity : product.quantity + receivement.quantity});
+        await this.productRepository.update(product.id, {quantity : product.quantity + parseInt(receivement.quantity)});
         return await this.receivementRepository.findOne(receivement.id, {relations: ['product']})
     }
 

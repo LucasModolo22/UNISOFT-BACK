@@ -7,7 +7,7 @@ export class ReceivementEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('timestamp', { default : new Date() })
+    @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     date: Date;
 
     @OneToMany(type => ProductEntity, product => product.id)

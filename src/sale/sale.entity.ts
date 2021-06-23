@@ -10,7 +10,7 @@ export class SaleEntity {
     @Column({ length: 500 })
     client_name: string;
 
-    @Column('timestamp', { default: new Date() })
+    @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     date: Date;
 
     @Column()
