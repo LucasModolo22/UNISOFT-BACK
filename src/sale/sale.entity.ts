@@ -1,5 +1,5 @@
 import { ProductEntity } from 'src/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export class SaleEntity {
@@ -16,7 +16,7 @@ export class SaleEntity {
     @Column()
     price: number;
 
-    @OneToOne(type => ProductEntity)
+    @OneToMany(type => ProductEntity, product => product.id)
     @JoinColumn()
     product: ProductEntity;
 

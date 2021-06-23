@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { SaleDto } from './sale-dto';
 import { SaleService } from './sale.service';
@@ -32,6 +32,18 @@ export class SaleController {
     @UseGuards(AuthGuard("jwt"))
     findByProduct(@Param('id') id : number) {
         return this.saleService.findByProduct(id);
+    }
+
+    @Put(':id')
+    @UseGuards(AuthGuard("jwt"))
+    update(@Param() id : number, @Body() data : Partial<SaleDto>) {
+        return this.saleService.update(id, data);
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard("jwt"))
+    delete(@Param() id : number) {
+        return this.saleService.delete(id);
     }
 
 }

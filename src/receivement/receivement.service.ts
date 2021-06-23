@@ -40,4 +40,14 @@ export class ReceivementService {
         })
     }
 
+    async update(id: number, data : any) {
+        await this.receivementRepository.update(id, data);
+        return await this.receivementRepository.findOne(id);
+    }
+
+    async delete(id : number) {
+        await this.receivementRepository.delete(id);
+        return { success : true}
+    }
+
 }

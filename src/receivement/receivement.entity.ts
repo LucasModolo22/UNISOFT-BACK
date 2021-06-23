@@ -1,5 +1,5 @@
 import { ProductEntity } from 'src/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class ReceivementEntity {
@@ -10,7 +10,7 @@ export class ReceivementEntity {
     @Column('timestamp', { default : new Date() })
     date: Date;
 
-    @OneToOne(type => ProductEntity)
+    @OneToMany(type => ProductEntity, product => product.id)
     @JoinColumn()
     product: ProductEntity;
 

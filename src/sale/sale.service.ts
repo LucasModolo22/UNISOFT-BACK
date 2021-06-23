@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from 'src/product/product.entity';
 import { Repository } from 'typeorm';
+import { SaleDto } from './sale-dto';
 import { SaleEntity } from './sale.entity';
 
 @Injectable()
@@ -38,6 +39,16 @@ export class SaleService {
             },
             relations: ['product']
         })
+    }
+
+    async update(id: number, data : any) {
+        await this.saleRepository.update(id, data);
+        return await this.saleRepository.findOne(id);
+    }
+
+    async delete(id : number) {
+        await this.saleRepository.delete(id);
+        return { success : true}
     }
 
 }
