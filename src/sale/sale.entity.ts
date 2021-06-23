@@ -13,7 +13,7 @@ export class SaleEntity {
     @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     date: Date;
 
-    @Column()
+    @Column({type: "float"})
     price: number;
 
     @ManyToOne(type => ProductEntity, product => product.sale, {cascade: ["insert", "update"]})
