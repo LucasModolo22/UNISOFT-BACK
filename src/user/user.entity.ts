@@ -6,17 +6,17 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 500 })
+  @Column({ length: 50, unique: true })
   username: string;
 
   @Column()
   pwd: string;
 
-  @Column()
-  name: string;
+  @Column({unique: true})
+  email: string;
 
   @Column()
-  email: string;
+  name: string;
 
   @Column()
   surname: string;

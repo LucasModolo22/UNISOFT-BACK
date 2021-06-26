@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductDto } from './product-dto';
@@ -27,7 +27,14 @@ export class ProductService {
     }
 
     async delete(id : number) {
-        await this.productRepository.delete(id);
+        try{
+            await this.productRepository.delete(id);
+        }
+        catch(err){
+            if(err.code == 23503){
+                throw new HttpException({msg: `Você não pode excluir um produto que esteja vinculado à alguma venda e/ou recebimento`}, HttpStatus.BAD_REQUEST)
+            }
+        }
         return { success : true}
     }
 

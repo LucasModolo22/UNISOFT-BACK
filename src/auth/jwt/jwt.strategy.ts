@@ -20,12 +20,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) {
-        const validUser = await this.refreshUserData(payload.id, payload);
+        try {
+            const validUser = await this.refreshUserData(payload.id, payload);
 
-        return {
-            id: validUser.id,
-            username: validUser.username,
-        };
+            return {
+                id: validUser.id,
+                username: validUser.username,
+            };
+        } catch (error) {
+            throw new HttpException({msg: 'Usuário não encontrado'}, HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     async refreshUserData(userId: number, user: any) {

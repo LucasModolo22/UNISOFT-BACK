@@ -7,7 +7,7 @@ export class SaleEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 500 })
+    @Column({ length: 50 })
     client_name: string;
 
     @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })

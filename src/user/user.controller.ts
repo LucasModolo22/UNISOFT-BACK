@@ -35,6 +35,12 @@ export class UserController {
         return this.userService.findOne(id);
     }
 
+    @Get('username/:username')
+    @UseGuards(AuthGuard("jwt"))
+    findByUsername(@Param('username') username : string) {
+        return this.userService.findByUsername(username);
+    }
+
     @Put(':id')
     @UseGuards(AuthGuard("jwt"))
     update(@Param() id : number, @Body() data : Partial<UserDto>) {
