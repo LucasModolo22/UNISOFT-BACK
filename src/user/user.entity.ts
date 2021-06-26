@@ -9,17 +9,26 @@ export class UserEntity {
   @Column({ length: 50, unique: true })
   username: string;
 
-  @Column()
+  @Column({ nullable : false })
   pwd: string;
 
   @Column({unique: true})
   email: string;
 
-  @Column()
+  @Column({ nullable : true })
   name: string;
 
-  @Column()
+  @Column({ nullable : true })
   surname: string;
+
+  @Column({ nullable : true })
+  address: string;
+
+  @Column({ nullable : true })
+  cpf : string;
+
+  @Column('timestamp')
+  birth_date : Date;
 
   @BeforeInsert()
   async hashPassword() {

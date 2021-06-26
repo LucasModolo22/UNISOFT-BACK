@@ -4,6 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 
 @Entity()
 export class ProductEntity {
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,6 +13,9 @@ export class ProductEntity {
 
   @Column('text', {nullable : true})
   description: string;
+
+  @Column()
+  price: number;
 
   @Column()
   quantity: number;

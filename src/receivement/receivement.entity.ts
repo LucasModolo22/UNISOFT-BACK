@@ -1,5 +1,6 @@
 import { ProductEntity } from 'src/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, OneToMany, ManyToOne } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, OneToMany, ManyToOne, JoinTable } from 'typeorm';
 
 @Entity()
 export class ReceivementEntity {
@@ -15,5 +16,9 @@ export class ReceivementEntity {
 
     @Column()
     quantity: number;
+
+    @OneToMany(type => UserEntity, user => user.id)
+    @JoinTable()
+    user : UserEntity;
 
 }

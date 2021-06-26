@@ -1,5 +1,6 @@
 import { ProductEntity } from 'src/product/product.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, JoinTable } from 'typeorm';
 
 @Entity()
 export class SaleEntity {
@@ -21,5 +22,9 @@ export class SaleEntity {
 
     @Column()
     quantity: number;
+
+    @OneToMany(type => UserEntity, user => user.id)
+    @JoinTable()
+    user : UserEntity;
 
 }
