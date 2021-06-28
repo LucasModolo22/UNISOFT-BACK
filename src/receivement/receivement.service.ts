@@ -59,7 +59,7 @@ export class ReceivementService {
         await receivement.product.forEach(async (productSales) => {
             let ps : any = await this.productReceivementEntity.findOne(productSales.id, { relations: ['product'] });
             let product = await this.productRepository.findOne(ps.product.id)
-            let transaction = product.quantity + ps.quantity;
+            let transaction = product.quantity - ps.quantity;
             await this.productRepository.update(product.id, { quantity: transaction });
             await this.productReceivementEntity.save(ps)
         })

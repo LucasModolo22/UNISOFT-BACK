@@ -1,6 +1,7 @@
 import { ProductEntity } from 'src/product/product.entity';
 import { UserEntity } from 'src/user/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, OneToMany, ManyToOne, JoinTable, ManyToMany } from 'typeorm';
+import { ProductReceivementEntity } from './product-receivement.entity';
 
 @Entity()
 export class ReceivementEntity {
@@ -11,9 +12,9 @@ export class ReceivementEntity {
     @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     date: Date;
 
-    @ManyToMany(() => ProductEntity, { cascade : true })
+    @ManyToMany(() => ProductReceivementEntity, { cascade : true })
     @JoinTable()
-    product: ProductEntity[];
+    product: ProductReceivementEntity[];
 
     @Column()
     quantity: number;
