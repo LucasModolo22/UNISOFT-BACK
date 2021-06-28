@@ -16,9 +16,6 @@ export class ReceivementEntity {
     @JoinTable()
     product: ProductReceivementEntity[];
 
-    @Column()
-    quantity: number;
-
     @ManyToOne(type => UserEntity, user => user.id)
     @JoinTable()
     user : UserEntity;

@@ -14,7 +14,7 @@ export class ProductEntity {
   @Column('text', {nullable : true})
   description: string;
 
-  @Column()
+  @Column({type: "float"})
   price: number;
 
   @Column()

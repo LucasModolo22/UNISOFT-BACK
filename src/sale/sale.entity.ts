@@ -22,9 +22,6 @@ export class SaleEntity {
     @JoinTable()
     product: ProductSaleEntity[];
 
-    @Column()
-    quantity: number;
-
     @ManyToOne(type => UserEntity, user => user.id)
     @JoinTable()
     user : UserEntity;

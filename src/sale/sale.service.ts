@@ -69,7 +69,6 @@ export class SaleService {
                 throw new HttpException({ msg: `O estoque não pode ficar abaixo de 0. O estoque atual é ${product.quantity} e você está tentando retirar ${sale.quantity}` }, HttpStatus.BAD_REQUEST)
 
             await this.productRepository.update(product.id, { quantity: transaction });
-            await this.productSaleRepository.save(ps)
         })
         await this.saleRepository.delete(id);
         return { success: true }

@@ -61,7 +61,6 @@ export class ReceivementService {
             let product = await this.productRepository.findOne(ps.product.id)
             let transaction = product.quantity - ps.quantity;
             await this.productRepository.update(product.id, { quantity: transaction });
-            await this.productReceivementEntity.save(ps)
         })
         await this.receivementRepository.delete(id);
         return { success : true}
