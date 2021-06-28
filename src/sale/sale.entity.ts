@@ -1,6 +1,7 @@
 import { ProductEntity } from 'src/product/product.entity';
 import { UserEntity } from 'src/user/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToOne, JoinTable, ManyToMany } from 'typeorm';
+import { ProductSaleEntity } from './product-sale.entity';
 
 @Entity()
 export class SaleEntity {
@@ -17,13 +18,14 @@ export class SaleEntity {
     @Column({type: "float"})
     price: number;
 
-    @ManyToOne(type => ProductEntity, product => product.sale, {cascade: ["insert", "update"]})
-    product: ProductEntity;
+    @ManyToMany(() => ProductSaleEntity, { cascade: true })
+    @JoinTable()
+    product: ProductSaleEntity[];
 
     @Column()
     quantity: number;
 
-    @OneToMany(type => UserEntity, user => user.id)
+    @ManyToOne(type => UserEntity, user => user.id)
     @JoinTable()
     user : UserEntity;
 

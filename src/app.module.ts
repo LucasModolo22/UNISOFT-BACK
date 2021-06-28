@@ -11,6 +11,8 @@ import { ReceivementModule } from './receivement/receivement.module';
 import { SaleModule } from './sale/sale.module';
 import { ReceivementEntity } from './receivement/receivement.entity';
 import { SaleEntity } from './sale/sale.entity';
+import { ProductSaleEntity } from './sale/product-sale.entity';
+import { ProductReceivementEntity } from './receivement/product-receivement.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,9 @@ import { SaleEntity } from './sale/sale.entity';
         ProductEntity,
         UserEntity,
         ReceivementEntity,
-        SaleEntity
+        SaleEntity,
+        ProductSaleEntity,
+        ProductReceivementEntity
       ],
       migrations: [
         'src/migration/**/*.ts',
