@@ -20,7 +20,7 @@ export class SaleEntity {
 
     @ManyToMany(() => ProductSaleEntity, { cascade: true })
     @JoinTable()
-    product: ProductSaleEntity[];
+    products: ProductSaleEntity[];
 
     @ManyToOne(type => UserEntity, user => user.id)
     @JoinTable()

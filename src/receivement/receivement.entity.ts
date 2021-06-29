@@ -12,9 +12,9 @@ export class ReceivementEntity {
     @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
     date: Date;
 
-    @ManyToMany(() => ProductReceivementEntity, { cascade : true })
+    @ManyToMany(() => ProductReceivementEntity, {cascade : true})
     @JoinTable()
-    product: ProductReceivementEntity[];
+    products: ProductReceivementEntity[];
 
     @ManyToOne(type => UserEntity, user => user.id)
     @JoinTable()

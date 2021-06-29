@@ -20,17 +20,29 @@ export class SaleService {
 
 
     async find() {
-        return await this.saleRepository.find({ relations: ['product', 'product.product', 'user'] });
+        return await this.saleRepository
+            .createQueryBuilder('sale')
+            .leftJoinAndSelect('sale.products', 'product_sale')
+            .leftJoinAndMapOne('product_sale.product', 'product_sale.product', 'product')
+            .leftJoinAndSelect('sale.user', 'user')
+            .getMany()
     }
 
     async findOne(id: number) {
-        return await this.saleRepository.findOne(id, { relations: ['product', 'product.product', 'user'] })
+        return await this.saleRepository
+            .createQueryBuilder('sale')
+            .where({id})
+            .leftJoinAndSelect('sale.products', 'product_sale')
+            .leftJoinAndSelect('product_sale.product', 'product')
+            .leftJoinAndSelect('sale.user', 'user')
+            .getOne()
+        // return await this.saleRepository.findOne(id, { relations: ['product', 'product.product', 'user'] })
     }
 
     async create(data: any) {
         let sale: any = await this.saleRepository.create(data);
 
-        await data.product.forEach(async (productSales) => {
+        await data.products.forEach(async (productSales) => {
             let ps : any = await this.productSaleRepository.create(productSales);
             let product = await this.productRepository.findOne(ps.product.id)
             let transaction = product.quantity - ps.quantity;
@@ -42,7 +54,13 @@ export class SaleService {
         })
 
         await this.saleRepository.save(sale);
-        return await this.saleRepository.findOne(sale.id, { relations: ['product', 'product.product', 'user'] })
+        return await this.saleRepository
+            .createQueryBuilder('sale')
+            .where({id: sale.id})
+            .leftJoinAndSelect('sale.products', 'product_sale')
+            .leftJoinAndSelect('product_sale.product', 'product')
+            .leftJoinAndSelect('sale.user', 'user')
+            .getOne()
     }
 
     async findByProduct(id: number) {
@@ -50,7 +68,7 @@ export class SaleService {
             where: {
                 product: id
             },
-            relations: ['product', 'product.product', 'user']
+            relations: ['products', 'product.product', 'user']
         })
     }
 
@@ -61,7 +79,7 @@ export class SaleService {
 
     async delete(id: number) {
         let sale: any = await this.findOne(id)
-        await sale.product.forEach(async (productSales) => {
+        await sale.products.forEach(async (productSales) => {
             let ps : any = await this.productSaleRepository.findOne(productSales.id, { relations: ['product'] });
             let product = await this.productRepository.findOne(ps.product.id)
             let transaction = product.quantity + ps.quantity;

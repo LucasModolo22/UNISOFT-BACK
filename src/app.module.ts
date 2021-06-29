@@ -21,7 +21,7 @@ import { ProductReceivementEntity } from './receivement/product-receivement.enti
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'lucas221001',
+      password: '123',
       database: 'unisoft',
       synchronize: true,
       logging: false,

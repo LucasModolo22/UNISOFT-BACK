@@ -10,7 +10,7 @@ export class ProductSaleEntity {
     @Column()
     quantity: number;
 
-    @ManyToOne(type => ProductEntity, product => product.id, { cascade: true })
+    @ManyToOne(type => ProductEntity, product => product.id)
     @JoinTable()
     product : ProductEntity;
 

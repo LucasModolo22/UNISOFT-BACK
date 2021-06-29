@@ -20,16 +20,27 @@ export class ReceivementService {
     ) { }
 
     async find() {
-        return await this.receivementRepository.find({relations: ['product', 'product.product', 'user']});
+        return await this.receivementRepository
+            .createQueryBuilder('receivement')
+            .leftJoinAndSelect('receivement.products', 'product_receivement')
+            .leftJoinAndSelect('product_receivement.product', 'product')
+            .leftJoinAndSelect('receivement.user', 'user')
+            .getMany()
     }
 
     async findOne(id: number) {
-        return await this.receivementRepository.findOne(id, {relations: ['product', 'product.product', 'user']})
+        return await this.receivementRepository
+            .createQueryBuilder('receivement')
+            .where({id})
+            .leftJoinAndSelect('receivement.products', 'product_receivement')
+            .leftJoinAndSelect('product_receivement.product', 'product')
+            .leftJoinAndSelect('receivement.user', 'user')
+            .getOne()
     }
 
     async create(data: any) {
         let receivement: any = await this.receivementRepository.create(data);
-        await data.product.forEach(async (productSales) => {
+        await data.products.forEach(async (productSales) => {
             let ps : any = await this.productReceivementEntity.create(productSales);
             let product = await this.productRepository.findOne(ps.product.id)
             let transaction = product.quantity + ps.quantity;
@@ -37,7 +48,13 @@ export class ReceivementService {
             await this.productReceivementEntity.save(ps)
         })
         await this.receivementRepository.save(receivement);
-        return await this.receivementRepository.findOne(receivement.id, {relations: ['product', 'product.product', 'user']})
+        return await this.receivementRepository
+            .createQueryBuilder('receivement')
+            .where({id: receivement.id})
+            .leftJoinAndSelect('receivement.products', 'product_receivement')
+            .leftJoinAndSelect('product_receivement.product', 'product')
+            .leftJoinAndSelect('receivement.user', 'user')
+            .getOne()
     }
 
     async findByProduct(id: number) {
@@ -45,7 +62,7 @@ export class ReceivementService {
             where: {
                 product: id
             },
-            relations: ['product', 'product.product', 'user']
+            relations: ['products', 'product.product', 'user']
         })
     }
 
@@ -56,7 +73,7 @@ export class ReceivementService {
 
     async delete(id : number) {
         let receivement: any = await this.findOne(id)
-        await receivement.product.forEach(async (productSales) => {
+        await receivement.products.forEach(async (productSales) => {
             let ps : any = await this.productReceivementEntity.findOne(productSales.id, { relations: ['product'] });
             let product = await this.productRepository.findOne(ps.product.id)
             let transaction = product.quantity - ps.quantity;
