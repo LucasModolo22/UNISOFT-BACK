@@ -82,7 +82,7 @@ export class SaleService {
         await sale.products.forEach(async (productSales) => {
             let ps : any = await this.productSaleRepository.findOne(productSales.id, { relations: ['product'] });
             let product = await this.productRepository.findOne(ps.product.id)
-            let transaction = product.quantity + ps.quantity;
+            let transaction = Number(product.quantity) + Number(ps.quantity);
             if (transaction < 0)
                 throw new HttpException({ msg: `O estoque não pode ficar abaixo de 0. O estoque atual é ${product.quantity} e você está tentando retirar ${sale.quantity}` }, HttpStatus.BAD_REQUEST)
 

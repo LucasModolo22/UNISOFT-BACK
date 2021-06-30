@@ -37,13 +37,13 @@ export class ReceivementController {
 
     @Put(':id')
     @UseGuards(AuthGuard("jwt"))
-    update(@Param() id : number, @Body() data : Partial<ReceivementDto>) {
+    update(@Param('id') id : number, @Body() data : Partial<ReceivementDto>) {
         return this.receivementService.update(id, data);
     }
 
     @Delete(':id')
     @UseGuards(AuthGuard("jwt"))
-    delete(@Param() id : number) {
+    delete(@Param('id') id : number) {
         return this.receivementService.delete(id);
     }
 

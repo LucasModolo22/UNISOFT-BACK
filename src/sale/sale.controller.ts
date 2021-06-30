@@ -36,13 +36,13 @@ export class SaleController {
 
     @Put(':id')
     @UseGuards(AuthGuard("jwt"))
-    update(@Param() id : number, @Body() data : Partial<SaleDto>) {
+    update(@Param('id') id : number, @Body() data : Partial<SaleDto>) {
         return this.saleService.update(id, data);
     }
 
     @Delete(':id')
     @UseGuards(AuthGuard("jwt"))
-    delete(@Param() id : number) {
+    delete(@Param('id') id : number) {
         return this.saleService.delete(id);
     }
 
